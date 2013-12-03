@@ -10,6 +10,15 @@
 
     <name>simple-hadoop-job</name>
     <url>http://maven.apache.org</url>
+    
+    <repositories>
+        <repository>
+            <id>libs-release-local</id>
+            <name>CDH3u5</name>
+            <url>https://repository.cloudera.com/artifactory/libs-release-local</url>
+        </repository>
+    </repositories>
+   
    
     <build>
         <plugins>
