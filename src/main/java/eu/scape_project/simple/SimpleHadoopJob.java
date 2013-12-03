@@ -47,12 +47,12 @@ public class SimpleHadoopJob {
      * Reducer class.
      */
     public static class MyReducer
-            extends Reducer<Text, Text, Text, LongWritable> {
+            extends Reducer<Text, LongWritable, Text, LongWritable> {
 
         @Override
-        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        public void reduce(Text key, Iterable<LongWritable> values, Context context) throws IOException, InterruptedException {
             int count = 0;
-            for(Text value : values) {
+            for(LongWritable value : values) {
                 count ++;
             }
             context.write(key, new  LongWritable(count));
@@ -64,11 +64,11 @@ public class SimpleHadoopJob {
      * Mapper class.
      */
     public static class MyMapper
-            extends Mapper<LongWritable, Text, Text, Text> {
+            extends Mapper<LongWritable, Text, Text, LongWritable> {
 
         @Override
-        public void map(LongWritable key, Text value, Mapper.Context context) throws IOException, InterruptedException, FileNotFoundException {
-           context.write(key, value);
+        public void map(LongWritable key, Text value, Mapper.Context context) throws IOException, InterruptedException {
+           context.write(value, new LongWritable(1L));
         }
     }
 
@@ -120,7 +120,7 @@ public class SimpleHadoopJob {
             job.setOutputFormatClass(TextOutputFormat.class);
 
             job.setMapOutputKeyClass(Text.class);
-            job.setMapOutputValueClass(Text.class);
+            job.setMapOutputValueClass(LongWritable.class);
 
             job.setOutputKeyClass(Text.class);
             job.setOutputValueClass(LongWritable.class);
